@@ -27,7 +27,7 @@ dioxus-ssr ={ workspace = true, optional = true }
 
 serde = { version = "1.0.136", optional = true }
 
-[target.'cfg(not(any(target_arch = "wasm32", target_os = "ios", target_os = "android")))'.dependencies]
+[target.'cfg(not(any(target_family = "wasm", target_os = "ios", target_os = "android")))'.dependencies]
 dioxus-hot-reload = { workspace = true, optional = true }
 
 [features]

@@ -18,7 +18,7 @@ where
     Fut: Future + 'static,
     Fut::Output: Send + 'static,
 {
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     {
         tokio::task::spawn_blocking(move || {
             tokio::runtime::Runtime::new()
@@ -26,7 +26,7 @@ where
                 .block_on(f())
         })
     }
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(target_family = "wasm")]
     {
         tokio::task::spawn_local(f())
     }

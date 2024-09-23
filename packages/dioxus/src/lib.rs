@@ -68,7 +68,7 @@ pub mod prelude {
     pub use dioxus_elements::{prelude::*, GlobalAttributes, SvgAttributes};
 
     #[cfg(all(
-        not(any(target_arch = "wasm32", target_os = "ios", target_os = "android")),
+        not(any(target_family = "wasm", target_os = "ios", target_os = "android")),
         feature = "hot-reload"
     ))]
     #[cfg_attr(docsrs, doc(cfg(feature = "hot-reload")))]

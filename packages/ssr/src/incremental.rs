@@ -65,7 +65,7 @@ impl IncrementalRenderer {
         let _ = std::fs::remove_dir_all(&self.static_dir);
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     fn track_timestamps(&self) -> bool {
         self.invalidate_after.is_some()
     }
@@ -99,7 +99,7 @@ impl IncrementalRenderer {
         route: String,
         html: Vec<u8>,
     ) -> Result<RenderFreshness, IncrementalRendererError> {
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(target_family = "wasm"))]
         {
             use std::io::Write;
             let file_path = self.route_as_path(&route);
@@ -122,7 +122,7 @@ impl IncrementalRenderer {
         }
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     fn promote_memory_cache<K: AsRef<str>>(&mut self, route: K) {
         if let Some(cache) = self.memory_cache.as_mut() {
             cache.promote(route.as_ref())
@@ -157,7 +157,7 @@ impl IncrementalRenderer {
             }
         }
         // check the file cache
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(target_family = "wasm"))]
         if let Some(file_path) = self.find_file(&route) {
             if let Some(freshness) = file_path.freshness(self.invalidate_after) {
                 if let Ok(file) = tokio::fs::File::open(file_path.full_path).await {
@@ -230,7 +230,7 @@ impl IncrementalRenderer {
         }
     }
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     fn route_as_path(&self, route: &str) -> PathBuf {
         let mut file_path = (self.map_path)(route);
         if self.track_timestamps() {

@@ -20,7 +20,7 @@ pub mod launch;
     debug_assertions,
     feature = "hot-reload",
     feature = "server",
-    not(target_arch = "wasm32")
+    not(target_family = "wasm")
 ))]
 mod hot_reload;
 pub use config::*;

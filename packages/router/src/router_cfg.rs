@@ -122,7 +122,7 @@ where
 {
     // If we're on the web and have wasm, use the web history provider
 
-    #[cfg(all(target_arch = "wasm32", feature = "web"))]
+    #[cfg(all(target_family = "wasm", feature = "web"))]
     return Box::new(AnyHistoryProviderImplWrapper::new(
         WebHistory::<R>::default(),
     ));

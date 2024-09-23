@@ -21,7 +21,7 @@ pub fn launch(
         vdom
     };
 
-    #[cfg(all(feature = "server", not(target_arch = "wasm32")))]
+    #[cfg(all(feature = "server", not(target_family = "wasm")))]
     tokio::runtime::Runtime::new()
         .unwrap()
         .block_on(async move {
