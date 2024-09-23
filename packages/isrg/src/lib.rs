@@ -4,7 +4,7 @@
 
 mod config;
 mod freshness;
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(not(target_family = "wasm"))]
 mod fs_cache;
 mod memory_cache;
 
@@ -29,7 +29,7 @@ pub struct CachedRender<'a> {
 /// An incremental renderer.
 pub struct IncrementalRenderer {
     pub(crate) memory_cache: InMemoryCache,
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     pub(crate) file_system_cache: fs_cache::FileSystemCache,
     invalidate_after: Option<Duration>,
 }
@@ -43,14 +43,14 @@ impl IncrementalRenderer {
     /// Remove a route from the cache.
     pub fn invalidate(&mut self, route: &str) {
         self.memory_cache.invalidate(route);
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(target_family = "wasm"))]
         self.file_system_cache.invalidate(route);
     }
 
     /// Remove all routes from the cache.
     pub fn invalidate_all(&mut self) {
         self.memory_cache.clear();
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(target_family = "wasm"))]
         self.file_system_cache.clear();
     }
 
@@ -70,7 +70,7 @@ impl IncrementalRenderer {
     ) -> Result<RenderFreshness, IncrementalRendererError> {
         let timestamp = Utc::now();
         let html = html.into();
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(target_family = "wasm"))]
         self.file_system_cache
             .put(route.clone(), timestamp, html.clone())?;
         self.memory_cache.put(route, timestamp, html);
@@ -108,7 +108,7 @@ impl IncrementalRenderer {
     ) -> Result<Option<CachedRender<'a>>, IncrementalRendererError> {
         let Self {
             memory_cache,
-            #[cfg(not(target_arch = "wasm32"))]
+            #[cfg(not(target_family = "wasm"))]
             file_system_cache,
             ..
         } = self;
@@ -123,7 +123,7 @@ impl IncrementalRenderer {
         // non lexical lifetimes will make this possible (it works with polonius)
         let or_insert = || {
             // check the file cache
-            #[cfg(not(target_arch = "wasm32"))]
+            #[cfg(not(target_family = "wasm"))]
             return match file_system_cache.get(route) {
                 Ok(Some((freshness, bytes))) => Ok((freshness.timestamp(), bytes)),
                 Ok(None) => Err(FsGetError::NotPresent),

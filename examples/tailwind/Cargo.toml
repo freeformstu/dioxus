@@ -13,8 +13,8 @@ publish = false
 [dependencies]
 manganis = { workspace = true }
 
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
 dioxus = { path = "../../packages/dioxus", features = ["desktop"] }
 
-[target.'cfg(target_arch = "wasm32")'.dependencies]
+[target.'cfg(target_family = "wasm")'.dependencies]
 dioxus = { path = "../../packages/dioxus", features = ["web"] }

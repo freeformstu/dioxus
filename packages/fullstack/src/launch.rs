@@ -35,7 +35,7 @@ pub fn launch(
 ) -> ! {
     let contexts = Arc::new(contexts);
     let factory = virtual_dom_factory(root, contexts.clone());
-    #[cfg(all(feature = "server", not(target_arch = "wasm32")))]
+    #[cfg(all(feature = "server", not(target_family = "wasm")))]
     tokio::runtime::Runtime::new()
         .unwrap()
         .block_on(async move {

@@ -471,7 +471,7 @@ async fn handle_server_fns_inner(
         }
         .expect("could not build Response")
     };
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(target_family = "wasm")]
     {
         use futures_util::future::FutureExt;
 
@@ -489,7 +489,7 @@ async fn handle_server_fns_inner(
                 .into_response()
         })
     }
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     {
         future().await
     }

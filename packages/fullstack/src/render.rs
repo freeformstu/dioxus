@@ -25,7 +25,7 @@ where
     Fut: Future + 'static,
     Fut::Output: Send + 'static,
 {
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(target_family = "wasm"))]
     {
         use tokio_util::task::LocalPoolHandle;
         static TASK_POOL: std::sync::OnceLock<LocalPoolHandle> = std::sync::OnceLock::new();
@@ -38,7 +38,7 @@ where
 
         pool.spawn_pinned(f)
     }
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(target_family = "wasm")]
     {
         tokio::task::spawn_local(f())
     }

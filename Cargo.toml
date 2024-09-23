@@ -239,7 +239,7 @@ form_urlencoded = "1.2.0"
 async-std = "1.12.0"
 web-time = "1.1.0"
 
-[target.'cfg(target_arch = "wasm32")'.dev-dependencies]
+[target.'cfg(target_family = "wasm")'.dev-dependencies]
 getrandom = { version = "0.2.12", features = ["js"] }
 tokio = { version = "1.16.1", default-features = false, features = [
     "sync",
@@ -249,7 +249,7 @@ tokio = { version = "1.16.1", default-features = false, features = [
     "time"
 ] }
 
-[target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
+[target.'cfg(not(target_family = "wasm"))'.dev-dependencies]
 tokio = { version = "1.16.1", features = ["full"] }
 
 # To make most examples faster to compile, we split out assets and http-related stuff
