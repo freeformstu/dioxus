@@ -1,5 +1,3 @@
-#![cfg_attr(target_arch = "wasm64", feature(simd_wasm64))]
-
 #[cfg(feature = "webonly")]
 use web_sys::Node;
 
